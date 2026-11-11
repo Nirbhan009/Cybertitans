@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Crack the Vault</title>
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/game.css">
+<link rel="stylesheet" href="css/console.css">
+<link rel="stylesheet" href="css/vault.css">
+<link rel="stylesheet" href="css/phone.css">
+<link rel="stylesheet" href="css/party.css">
+</head>
+<body class="phone">
+<div id="alarm-flash"></div>
+<div id="net" class="net" hidden>Reconnecting...</div>
+
+<section class="screen center" id="p-join">
+  <form class="card join-card" id="join-form" autocomplete="off">
+    <div class="brand">SATEC x CyberPatriot</div>
+    <h1 class="p-logo glitch" data-text="CRACK THE VAULT">CRACK THE VAULT</h1>
+    <p class="invite" id="invite" hidden></p>
+    <input id="name-input" maxlength="12" spellcheck="false" autocapitalize="off" aria-label="Nickname" placeholder="NICKNAME">
+    <p class="error" id="name-error" role="alert"></p>
+    <div class="modes" id="modes">
+      <button type="button" class="mode vault" data-mode="easy"><b>CRACK THE VAULT</b><span>Hack 4 locks, open the vault, win a prize</span></button>
+      <button type="button" class="mode scam" data-mode="scam"><b>SCAM SPOTTER</b><span>For parents: 90 seconds. Scam or legit?</span></button>
+      <button type="button" class="mode duel" data-mode="duel"><b>DUEL SOMEONE</b><span>Parent vs kid. Same puzzles, first to the vault wins</span></button>
+    </div>
+    <button type="button" class="go" id="accept-duel" hidden>ACCEPT THE DUEL</button>
+    <button type="button" class="link-btn" id="try-demo">Not sure? Try one free lock first</button>
+  </form>
+</section>
+
+<section class="screen center" id="p-duelopen">
+  <div class="card">
+    <div class="eyebrow">DUEL ROOM</div>
+    <p class="wait-lead">Your opponent scans this with their phone</p>
+    <div class="duel-qr" id="duel-qr"></div>
+    <div class="big-code small" id="duel-room">----</div>
+    <p class="fine">Waiting for someone to accept...</p>
+    <button type="button" class="ghost" id="duelopen-cancel">Cancel</button>
+  </div>
+</section>
+
+<section class="screen center" id="p-wait">
+  <div class="card">
+    <div class="eyebrow" id="wait-tier">EASY MODE</div>
+    <p class="wait-duel" id="wait-duel" hidden></p>
+    <p class="wait-lead">Show this code at the booth and pay</p>
+    <div class="big-code" id="wait-code">----</div>
+    <p class="wait-price" id="wait-price"></p>
+    <p class="fine">Your game starts here once staff approve it.</p>
+    <button type="button" class="ghost" id="wait-cancel">Cancel</button>
+  </div>
+</section>
+
+<section class="screen center" id="p-brief">
+  <div class="card">
+    <div class="eyebrow" id="brief-tier">PAYMENT CONFIRMED</div>
+    <h2>Agent <span id="brief-name" class="hl"></span></h2>
+    <ol class="brief-list" id="brief-list"></ol>
+    <p class="brief-stakes" id="brief-stakes"></p>
+    <button type="button" class="go" id="brief-go">START THE HACK</button>
+    <p class="fine" id="brief-wait" hidden></p>
+  </div>
+</section>
+
+<section class="screen" id="p-game">
+  <header class="p-top">
+    <div class="clock" id="clock" role="timer">0:00</div>
+    <div class="vs-tag" id="vs-tag" hidden></div>
+    <div class="digits" id="digits"><span>?</span><span>?</span><span>?</span><span>?</span></div>
+  </header>
+  <main class="p-views" id="p-views" data-view="hack">
+    <section class="panel con-panel" id="con-panel">
+      <div class="panel-head"><span id="tier-tag">EASY MODE</span><button type="button" id="hint-btn">NEED A HINT?</button></div>
+      <div class="con-work">
+        <nav class="lock-tabs" id="lock-tabs" aria-label="Locks"></nav>
+        <div class="puzzle-stage" id="puzzle-stage"></div>
+        <div class="jam" id="jam" role="alert" hidden>
+          <strong>FIREWALL ALERT</strong>
+          <span>Wrong answer. Console locked.</span>
+          <b id="jam-time">10</b>
+        </div>
+      </div>
+      <div class="feed" id="feed" aria-live="polite"></div>
+    </section>
+    <section class="panel vault-panel" id="vault-panel"><div class="vault-body"></div></section>
+  </main>
+  <nav class="p-nav">
+    <button type="button" data-view="hack" class="on">HACK</button>
+    <button type="button" data-view="vault">VAULT</button>
+  </nav>
+  <div class="countdown" id="countdown" hidden><span id="countdown-n">3</span><small id="countdown-vs"></small></div>
+</section>
+
+<section class="screen" id="p-scam">
+  <header class="s-top">
+    <div class="clock" id="s-clock">1:30</div>
+    <div class="s-meta"><b id="s-prog">1 / 10</b><span id="s-score">0 pts</span></div>
+  </header>
+  <div class="s-title">SCAM SPOTTER</div>
+  <main class="s-stage" id="s-stage"></main>
+  <div class="s-verdict" id="s-verdict" hidden></div>
+  <nav class="s-buttons" id="s-buttons">
+    <button type="button" class="s-btn scam" id="s-scam">SCAM</button>
+    <button type="button" class="s-btn legit" id="s-legit">LEGIT</button>
+  </nav>
+  <button type="button" class="go s-next" id="s-next" hidden>NEXT</button>
+</section>
+
+<section class="screen center" id="p-demodone">
+  <div class="card">
+    <div class="eyebrow">FREE DEMO</div>
+    <h2 id="demo-title"></h2>
+    <p class="result-sub" id="demo-sub"></p>
+    <button type="button" class="go" id="demo-back">PLAY FOR REAL</button>
+  </div>
+</section>
+
+<section class="screen center" id="p-result">
+  <div class="card result-card">
+    <div class="badge" id="res-badge" hidden></div>
+    <h2 class="result-title" id="res-title"></h2>
+    <div class="result-big" id="res-big"></div>
+    <p class="result-sub" id="res-sub"></p>
+    <p class="result-prize" id="res-prize" hidden></p>
+    <button type="button" class="card-btn" id="res-card">SAVE MY HACKER CARD</button>
+    <div class="res-actions" id="res-actions"></div>
+    <div class="review" id="res-review" hidden></div>
+    <div class="lb res-board" id="res-board"></div>
+    <div class="recruit" id="res-recruit"></div>
+    <button type="button" class="ghost" id="res-station" hidden>NEXT PLAYER</button>
+  </div>
+</section>
+
+<div class="card-overlay" id="card-overlay" hidden>
+  <img id="card-img" alt="Your Hacker Card">
+  <p>Press and hold the card to save it.</p>
+  <div class="row">
+    <button type="button" class="go" id="card-share" hidden>SHARE</button>
+    <button type="button" class="ghost" id="card-close">CLOSE</button>
+  </div>
+</div>
+
+<canvas id="confetti"></canvas>
+<button type="button" id="mute">
+  <svg viewBox="0 0 24 24" aria-hidden="true"><path class="spk" d="M3 9v6h4l5 5V4L7 9H3z"/><path class="wave" d="M15.5 8.5a5 5 0 0 1 0 7M18 6a8.5 8.5 0 0 1 0 12" fill="none" stroke-width="2" stroke-linecap="round"/><path class="cross" d="M16 9l6 6M22 9l-6 6" fill="none" stroke-width="2" stroke-linecap="round"/></svg>
+</button>
+<div class="crt" aria-hidden="true"></div>
+
+<script src="js/ops.js"></script>
+<script src="js/shared.js"></script>
+<script src="js/qr.js"></script>
+<script src="js/audio.js"></script>
+<script src="js/puzzles.js"></script>
+<script src="js/console.js"></script>
+<script src="js/fx.js"></script>
+<script src="js/vault.js"></script>
+<script src="js/card.js"></script>
+<script src="js/phone.js"></script>
+</body>
+</html>

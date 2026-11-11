@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Crack the Vault</title>
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/game.css">
+<link rel="stylesheet" href="css/console.css">
+<link rel="stylesheet" href="css/vault.css">
+<link rel="stylesheet" href="css/admin.css">
+<link rel="stylesheet" href="css/phone.css">
+<link rel="stylesheet" href="css/party.css">
+</head>
+<body>
+<canvas id="matrix"></canvas>
+<div id="alarm-flash"></div>
+
+<section class="screen" id="screen-attract">
+  <div class="attract-main">
+    <div class="brand brand-big">SATEC x CyberPatriot</div>
+    <h1 class="title glitch" data-text="CRACK&#10;THE&#10;VAULT">CRACK<br>THE<br>VAULT</h1>
+    <p class="tagline">Hack the terminal. Find the code. Beat the clock.</p>
+    <div class="cta">
+      <div id="price-line">See staff to play: $2 per attempt</div>
+      <small id="pack-line">3 attempts for $5</small>
+    </div>
+  </div>
+  <aside class="attract-board">
+    <div id="join-box" class="join-box" hidden>
+      <div id="join-qr" class="join-qr"></div>
+      <div class="join-txt"><b>Skip the line. Play on your phone.</b><em class="join-parents">Parents: try SCAM SPOTTER, or duel your kid!</em><span>Scan the code, or go to</span><code id="join-url"></code></div>
+    </div>
+    <h2>HARD MODE</h2>
+    <div id="attract-hard" class="lb"></div>
+    <h2>EASY MODE</h2>
+    <div id="attract-board" class="lb"></div>
+  </aside>
+</section>
+
+<section class="screen center" id="screen-name">
+  <form class="card" id="name-form" autocomplete="off">
+    <div class="brand">SATEC x CyberPatriot</div>
+    <div class="eyebrow" id="name-attempt">ONE ATTEMPT</div>
+    <h2 class="glitch small" data-text="ENTER YOUR CODENAME">ENTER YOUR CODENAME</h2>
+    <input id="name-input" maxlength="12" spellcheck="false" autocapitalize="off" aria-label="Nickname" placeholder="NICKNAME">
+    <p class="fine">Up to 12 letters and numbers. This goes on the leaderboard.</p>
+    <p class="error" id="name-error" role="alert"></p>
+    <button type="submit" class="go">CONTINUE</button>
+  </form>
+</section>
+
+<section class="screen center" id="screen-brief">
+  <div class="card wide">
+    <div class="eyebrow" id="brief-tier">MISSION BRIEFING</div>
+    <h2>Agent <span id="brief-name" class="hl">X</span>, here is the job</h2>
+    <ol class="brief-list">
+      <li>The console on the left has <b>4 locks</b>. Each one you crack gives you <b>one digit</b> of the vault code.</li>
+      <li><b>Just click.</b> Every lock tells you what to do. Switch between locks any time.</li>
+      <li>Think before you click. A wrong answer <b>locks the console</b>, and longer each time.</li>
+      <li>Got your digits? Enter them on the <b>vault keypad</b> on the right.</li>
+    </ol>
+    <p class="brief-stakes">You have <b id="brief-time">4:00</b> and <b id="brief-tries">3</b> tries at the code. The clock starts when you click start.</p>
+    <button type="button" class="go" id="brief-go">START THE HACK</button>
+  </div>
+</section>
+
+<section class="screen" id="screen-game">
+  <header class="topbar">
+    <div class="top-left">
+      <div class="brand">SATEC x CyberPatriot</div>
+      <div class="agent">AGENT <span id="agent-name"></span></div>
+    </div>
+    <div class="clock" id="clock" role="timer">4:00</div>
+    <div class="top-right">
+      <div class="digits-label">RECOVERED DIGITS</div>
+      <div class="digits" id="digits"><span>?</span><span>?</span><span>?</span><span>?</span></div>
+    </div>
+  </header>
+  <main class="split">
+    <div class="left-col">
+      <section class="panel con-panel" id="con-panel">
+        <div class="panel-head"><span>VAULT-NET HACK CONSOLE</span><button type="button" id="hint-btn">NEED A HINT?</button></div>
+        <div class="con-work">
+          <nav class="lock-tabs" id="lock-tabs" aria-label="Locks"></nav>
+          <div class="puzzle-stage" id="puzzle-stage"></div>
+          <div class="jam" id="jam" role="alert" hidden>
+            <strong>FIREWALL ALERT</strong>
+            <span>Wrong answer. Console locked.</span>
+            <b id="jam-time">10</b>
+          </div>
+        </div>
+        <div class="feed" id="feed" aria-live="polite"></div>
+      </section>
+      <section class="panel result" id="result" hidden>
+        <h2 class="result-title glitch" id="result-title" data-text=""></h2>
+        <div class="result-big" id="result-big"></div>
+        <p class="result-sub" id="result-sub"></p>
+        <p class="result-prize" id="result-prize" hidden></p>
+        <p class="result-offer" id="result-offer" hidden></p>
+        <div class="recruit" id="result-recruit"></div>
+        <p class="result-next" id="result-next"></p>
+        <button type="button" class="tiny-continue" id="result-continue">Staff: continue</button>
+      </section>
+    </div>
+    <section class="panel vault-panel" id="vault-panel">
+      <div class="panel-head"><span>VAULT CONTROL</span><span>CLICK KEYS OR USE NUMBER KEYS</span></div>
+      <div class="vault-body"></div>
+    </section>
+  </main>
+</section>
+
+<section class="screen" id="screen-board">
+  <header class="board-head">
+    <h1 class="glitch" data-text="CRACK THE VAULT">CRACK THE VAULT</h1>
+    <div>TOP 10 AGENTS</div>
+  </header>
+  <section class="duel-live" id="duel-live" hidden>
+    <h2>LIVE DUEL</h2>
+    <div class="duel-lanes">
+      <div class="lane" id="lane-a"></div>
+      <div class="duel-mid"><b id="duel-clock">0:00</b><span>VS</span></div>
+      <div class="lane" id="lane-b"></div>
+    </div>
+  </section>
+  <div class="board-cols" id="board-cols">
+    <section><h2 class="hard-head">HARD MODE</h2><div id="board-hard" class="lb lb-giant"></div></section>
+    <section><h2>EASY MODE</h2><div id="board-list" class="lb lb-giant"></div></section>
+    <section id="board-scam-col" hidden><h2 class="scam-head">SCAM SPOTTER</h2><div id="board-scam" class="lb lb-giant"></div></section>
+  </div>
+  <div class="ticker" id="ticker" hidden><span id="ticker-text"></span></div>
+</section>
+
+<div id="admin" hidden>
+  <div id="admin-lock" class="admin-lock">
+    <h2>STAFF ACCESS</h2>
+    <input id="pin" type="password" inputmode="numeric" maxlength="8" autocomplete="off" aria-label="Staff PIN" placeholder="PIN">
+    <p id="pin-msg" class="error" role="alert"></p>
+    <div class="row">
+      <button type="button" id="pin-go" class="primary">Unlock</button>
+      <button type="button" id="pin-cancel">Cancel</button>
+    </div>
+  </div>
+  <div id="admin-main" class="admin-main" hidden>
+    <header class="admin-head">
+      <h2>STAFF PANEL</h2>
+      <p id="admin-msg" class="admin-msg" role="status"></p>
+      <button type="button" id="admin-close">Close (Esc)</button>
+    </header>
+    <nav class="admin-tabs">
+      <button type="button" class="on" data-tab="play">Run the game</button>
+      <button type="button" data-tab="money">Money and settings</button>
+    </nav>
+    <div class="admin-grid three" data-tab-body="play">
+      <section>
+        <h3>Round</h3>
+        <p id="round-status" class="status"></p>
+        <p id="queue-status" class="queue"></p>
+        <button type="button" id="btn-start" class="primary">Start Round</button>
+        <button type="button" id="btn-pack" class="primary">Start 3-Pack</button>
+        <button type="button" id="btn-hint">Unlock Hint</button>
+        <button type="button" id="btn-reset">Reset Round</button>
+        <button type="button" id="btn-reveal">Reveal Code (testing)</button>
+        <div class="row split-row">
+          <button type="button" id="btn-test">Free Test: Easy</button>
+          <button type="button" id="btn-test-hard">Free Test: Hard</button>
+        </div>
+        <div id="reveal-out" class="reveal"></div>
+      </section>
+      <section>
+        <h3>Sell Hard Mode</h3>
+        <p class="status-small">Pick a player who finished Easy at this laptop. Under the time limit gets the lower price.</p>
+        <div id="hard-list" class="hard-list"></div>
+      </section>
+      <section>
+        <h3>Phones</h3>
+        <div id="phones" class="phones"></div>
+      </section>
+    </div>
+    <div class="admin-grid three" data-tab-body="money" hidden>
+      <section>
+        <h3>Cash tracker</h3>
+        <div class="tiles">
+          <div><b id="s-money">$0</b><span>Total collected</span></div>
+          <div><b id="s-attempts">0</b><span>Attempts sold</span></div>
+          <div><b id="s-hints">0</b><span>Hints sold</span></div>
+          <div><b id="s-cracked">0</b><span>Vaults cracked</span></div>
+        </div>
+        <h4>Recent sales</h4>
+        <div id="sales" class="sales"></div>
+        <button type="button" id="btn-export" class="primary">Export CSV</button>
+        <button type="button" id="btn-reset-sales" class="danger-out">Reset Sales</button>
+        <h4>Change PIN</h4>
+        <p id="pin-warn" class="warn-text">Still using the default PIN.</p>
+        <div class="pin-row"><input id="new-pin" type="password" inputmode="numeric" maxlength="8" autocomplete="off" aria-label="New PIN" placeholder="New PIN"><button type="button" id="btn-pin">Change PIN</button></div>
+      </section>
+      <section>
+        <h3>Settings</h3>
+        <label>Timer (seconds)<input id="set-timer" type="number" min="30" max="1800"></label>
+        <label>Round price ($)<input id="set-round" type="number" min="0" step="0.25"></label>
+        <label>3-pack price ($)<input id="set-pack" type="number" min="0" step="0.25"></label>
+        <label>Hint price ($)<input id="set-hint" type="number" min="0" step="0.25"></label>
+        <label>Wrong tries<input id="set-tries" type="number" min="1" max="9"></label>
+        <h4>Hard Mode</h4>
+        <label>Fast Easy finish (seconds)<input id="set-threshold" type="number" min="10" max="1800"></label>
+        <label>Price if fast ($)<input id="set-hard-fast" type="number" min="0" step="0.25"></label>
+        <label>Price otherwise ($)<input id="set-hard-full" type="number" min="0" step="0.25"></label>
+        <label>Timer (seconds)<input id="set-hard-timer" type="number" min="30" max="1800"></label>
+        <label>Wrong tries<input id="set-hard-tries" type="number" min="1" max="9"></label>
+        <h4>Phones</h4>
+        <label>Scam Spotter price ($, 0 = free)<input id="set-scam-price" type="number" min="0" step="0.25"></label>
+        <label>Scam Spotter timer (s)<input id="set-scam-timer" type="number" min="30" max="600"></label>
+        <label class="stack">Join-the-team link (shows a QR after every round)<input id="set-signup" type="url" placeholder="https://..." spellcheck="false"></label>
+        <button type="button" id="btn-save">Save settings</button>
+      </section>
+      <section>
+        <h3>Leaderboard</h3>
+        <div id="admin-board" class="admin-board"></div>
+        <button type="button" id="btn-reset-board" class="danger-out">Reset Leaderboard</button>
+      </section>
+    </div>
+  </div>
+  <div id="confirm" class="confirm" hidden>
+    <div class="confirm-card">
+      <p id="confirm-msg"></p>
+      <div id="confirm-btns" class="row"></div>
+    </div>
+  </div>
+</div>
+
+<canvas id="confetti"></canvas>
+<button type="button" id="mute">
+  <svg viewBox="0 0 24 24" aria-hidden="true"><path class="spk" d="M3 9v6h4l5 5V4L7 9H3z"/><path class="wave" d="M15.5 8.5a5 5 0 0 1 0 7M18 6a8.5 8.5 0 0 1 0 12" fill="none" stroke-width="2" stroke-linecap="round"/><path class="cross" d="M16 9l6 6M22 9l-6 6" fill="none" stroke-width="2" stroke-linecap="round"/></svg>
+</button>
+<div class="crt" aria-hidden="true"></div>
+
+<script src="js/ops.js"></script>
+<script src="js/shared.js"></script>
+<script src="js/store.js"></script>
+<script src="js/qr.js"></script>
+<script src="js/phonequeue.js"></script>
+<script src="js/audio.js"></script>
+<script src="js/filter.js"></script>
+<script src="js/puzzles.js"></script>
+<script src="js/console.js"></script>
+<script src="js/fx.js"></script>
+<script src="js/vault.js"></script>
+<script src="js/admin.js"></script>
+<script src="js/board.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>

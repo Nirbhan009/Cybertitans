@@ -1,0 +1,98 @@
+/* Phone player layout, plus the staff queue shared with the laptop panel. */
+body.phone .screen { height: 100dvh; }
+body.phone .screen.center { padding: 14px; overflow-y: auto; align-items: flex-start; }
+body.phone .screen.center > .card { margin: auto; }
+body.phone .card { width: 100%; padding: 22px 18px; }
+.p-logo { margin: 0; font-size: 44px; line-height: 1; font-weight: 800; color: #eaffff; text-shadow: 0 0 22px rgba(25,230,255,.6); }
+body.phone #name-input { font-size: 30px; }
+body.phone .go { width: 100%; font-size: 18px; padding: .9em 1em; }
+.ghost { width: 100%; background: transparent; border: 1px solid var(--muted); color: var(--text); padding: .8em 1em; font-size: 16px; font-weight: 700; }
+.go.hard { background: var(--red); color: #fff; box-shadow: 0 0 22px rgba(255,45,74,.6); }
+body.phone .brief-list { font-size: 17px; }
+body.phone .brief-stakes { font-size: 18px; }
+.net { position: fixed; top: 0; left: 0; right: 0; z-index: 80; background: var(--amber); color: #150b00; text-align: center; font-weight: 800; padding: 4px; }
+
+.wait-lead { margin: 0; font-size: 18px; }
+.big-code { font-family: var(--mono); font-weight: 700; font-size: 76px; letter-spacing: .08em; line-height: 1.05; color: var(--cyan); text-shadow: 0 0 24px rgba(25,230,255,.8); }
+.wait-price { margin: 0; color: var(--amber); font-weight: 800; font-size: 26px; text-align: center; }
+
+body.phone #mute { top: 4px; left: 4px; right: auto; width: 30px; height: 30px; padding: 5px; }
+
+#p-game { flex-direction: column; }
+.p-top { flex: none; display: flex; align-items: center; justify-content: space-between; padding: 4px 8px 4px 40px; border-bottom: 1px solid var(--line); background: linear-gradient(#0a151c, #05090d); }
+body.phone .clock { font-size: 40px; }
+body.phone .digits { gap: 4px; }
+body.phone .digits span { width: 34px; height: 42px; font-size: 26px; }
+
+.p-views { flex: 1; min-height: 0; padding: 4px; display: flex; }
+.p-views .panel { flex: 1; }
+.p-views[data-view="hack"] .vault-panel, .p-views[data-view="vault"] .con-panel { display: none; }
+.p-nav { flex: none; display: grid; grid-template-columns: 1fr 1fr; gap: 4px; padding: 0 4px calc(4px + env(safe-area-inset-bottom)); }
+.p-nav button { padding: 13px 0; font-size: 17px; font-weight: 800; letter-spacing: .12em; background: #0a1b22; color: var(--muted); border: 1px solid var(--line); font-family: var(--head); }
+.p-nav button.on { background: var(--cyan); color: #021016; border-color: var(--cyan); }
+
+body.phone .con-panel { font-size: 14.5px; }
+body.phone #hint-btn { padding: 5px 10px; }
+body.phone .lock-tabs { grid-template-columns: 1fr 1fr; padding: 5px; gap: 4px; }
+body.phone .lock-tab { padding: 6px; }
+body.phone .puzzle-stage { padding: 8px 9px; overflow-y: auto; }
+body.phone .puzzle { height: auto; min-height: 100%; }
+body.phone .feed { height: calc(1.3em + 10px); }
+body.phone .feed .cursor-line { display: none; }
+body.phone .stamp-digit { font-size: 5.5em; }
+body.phone .cipher-msg { font-size: 1.15em; }
+body.phone .wheel-wrap { flex-direction: column; gap: 8px; }
+body.phone .wheel-row { height: auto; }
+body.phone .wheel-box { height: auto; width: 44vw; max-height: 26dvh; }
+body.phone .wheel-side { flex-direction: row; }
+body.phone .tool-grid, body.phone .pw-grid { grid-template-columns: 1fr; }
+body.phone .tool { min-height: 0; }
+body.phone .pw { padding: .75em .5em; }
+body.phone .packet { font-size: 1.1em; }
+body.phone .ex-main { grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); min-height: 11em; }
+body.phone .ex-files { grid-template-columns: 1fr; }
+body.phone .log-row { grid-template-columns: 1.8fr .85fr 1fr; padding: .6em .4em; font-size: .92em; }
+body.phone .log-row span:first-child { display: none; }
+body.phone .bits { gap: 4px; }
+body.phone .bits.ten { grid-template-columns: repeat(5, 1fr); row-gap: 8px; }
+body.phone .tool-grid.four { grid-template-columns: 1fr 1fr; }
+body.phone .bulb { width: 1.9em; height: 1.9em; }
+body.phone .bit-val { font-size: 1.25em; }
+body.phone .place { font-size: 1.05em; padding: .75em 0; }
+body.phone .mini { padding: .65em 0; }
+
+body.phone .vault-body { grid-template-columns: 1fr; grid-template-rows: minmax(0, 30%) minmax(0, 1fr); padding: 6px; gap: 4px; }
+body.phone .control { gap: 5px; }
+body.phone .led-row { max-width: 200px; margin: 0 auto; }
+body.phone .led-case { padding: 5px; }
+body.phone .denied strong { font-size: 34px; }
+
+.result-card { gap: 10px; }
+.result-card.win { border-color: var(--gold); }
+.result-card.lose { border-color: var(--red); }
+.result-card .result-title { font-size: 38px; }
+.result-card.win .result-title { color: var(--gold); }
+.result-card.lose .result-title { color: var(--red); }
+.result-card .result-big { font-size: 56px; }
+.result-card .result-sub { font-size: 17px; }
+.result-card .result-prize { font-size: 21px; }
+.result-prize.claimed { animation: none; background: #24323a; color: var(--text); }
+.res-actions { width: 100%; display: flex; flex-direction: column; gap: 8px; }
+.offer-note { margin: 0; color: var(--amber); font-weight: 700; text-align: center; font-size: 16px; }
+.res-board { width: 100%; font-size: 15px; }
+
+/* Staff queue */
+.q-head { margin: 8px 0 4px; color: var(--muted); font-size: 13px; letter-spacing: .08em; text-transform: uppercase; }
+.q-row { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 10px; padding: 7px 8px; background: #0b151b; border: 1px solid var(--line); margin-bottom: 5px; }
+.q-who { display: flex; align-items: center; gap: 8px; min-width: 0; }
+.q-code { font-family: var(--mono); font-size: 25px; color: var(--cyan); letter-spacing: .05em; }
+.q-nick { font-family: var(--mono); font-weight: 700; color: var(--text); }
+.q-tag { font-size: 11px; font-weight: 800; padding: 1px 5px; border: 1px solid var(--green); color: var(--green); }
+.q-tag.hard, .q-tag.duel { border-color: var(--red); color: var(--red); }
+.q-tag.scam { border-color: var(--amber); color: var(--amber); }
+.q-info { color: var(--muted); font-size: 13.5px; }
+.q-acts { display: flex; flex-wrap: wrap; gap: 5px; margin-left: auto; }
+.q-acts button, #admin .q-acts button { padding: 8px 11px; font-weight: 800; border: 1px solid #2e4a56; background: #16232b; color: var(--text); cursor: pointer; }
+.q-acts button.q-go, #admin .q-acts button.q-go { background: var(--green); border-color: var(--green); color: #02140a; }
+.q-acts button.q-go.alt, #admin .q-acts button.q-go.alt { background: var(--cyan); border-color: var(--cyan); }
+.q-acts button.q-danger, #admin .q-acts button.q-danger { background: transparent; color: #ff8c9c; border-color: #8a2636; }

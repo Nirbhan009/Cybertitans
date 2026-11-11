@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vault Staff</title>
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/admin.css">
+<link rel="stylesheet" href="css/phone.css">
+<style>
+  body { overflow-y: auto; user-select: auto; }
+  main { padding: 14px; max-width: 640px; margin: 0 auto; }
+  h1 { color: var(--cyan); font-size: 22px; letter-spacing: .12em; margin: 0 0 10px; }
+  #login { display: flex; flex-direction: column; gap: 12px; margin-top: 12vh; align-items: center; }
+  #pin { font-size: 30px; text-align: center; letter-spacing: .3em; width: 100%; background: #02060a; color: var(--text); border: 1px solid #2e4a56; padding: 10px; font-family: var(--mono); }
+  #go { width: 100%; padding: 14px; background: var(--cyan); border: 0; font-weight: 800; font-size: 18px; color: #021016; }
+</style>
+</head>
+<body>
+<main>
+  <h1>VAULT STAFF</h1>
+  <form id="login">
+    <input id="pin" type="password" inputmode="numeric" maxlength="8" autocomplete="off" aria-label="Staff PIN" placeholder="PIN">
+    <p id="msg" class="error" role="alert"></p>
+    <button id="go" type="submit">Unlock</button>
+  </form>
+  <div id="queue" hidden></div>
+</main>
+<script src="js/ops.js"></script>
+<script src="js/shared.js"></script>
+<script src="js/phonequeue.js"></script>
+<script>
+  (function () {
+    const $ = id => document.getElementById(id);
+    let q = null;
+    function enter() {
+      $('login').hidden = true;
+      $('queue').hidden = false;
+      q = CTV.PhoneQueue.mount($('queue'), { onDenied: () => { q.stop(); $('login').hidden = false; $('queue').hidden = true; } });
+    }
+    fetch('/api/admin/queue').then(r => { if (r.ok) enter(); });
+    $('login').addEventListener('submit', async e => {
+      e.preventDefault();
+      const r = await fetch('/api/admin/login', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ pin: $('pin').value }) });
+      if (r.ok) { $('pin').value = ''; $('msg').textContent = ''; enter(); return; }
+      const j = await r.json().catch(() => ({}));
+      $('msg').textContent = j.error || 'Could not connect.';
+      $('pin').value = '';
+    });
+  })();
+</script>
+</body>
+</html>
