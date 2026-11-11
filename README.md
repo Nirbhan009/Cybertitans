@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # CRACK THE VAULT: staff guide
 
 ## Start it
@@ -88,3 +89,7 @@ With `START.bat`, data is saved in `data.json` in this folder and survives resta
 Stop the server, open `data.json` in Notepad, delete the `"pinHash":"..."` entry (including its comma), save, and start again. The PIN goes back to 2580.
 
 For booth-only mode: open Chrome's menu, More Tools, Developer Tools, Console, and run `localStorage.removeItem('ctv.settings')`.
+=======
+# Cybertitans
+It is a cyberpat game
+>>>>>>> 15b78f7ec01994fbdb34729b3b37344b810b8a7e
